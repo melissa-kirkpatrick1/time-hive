@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, computed, inject, signal } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -10,6 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs/operators';
 
 import { AuthService } from './core/auth.service';
+import { ThemeService } from './core/theme.service';
 
 interface SubPage {
   path: string;
@@ -35,8 +36,13 @@ interface Section {
 export class App implements OnInit {
   private readonly router = inject(Router);
   protected readonly auth = inject(AuthService);
+  protected readonly theme = inject(ThemeService);
 
+  /** Mobile: the whole section list collapses behind a button. */
   protected readonly menuOpen = signal(false);
+
+  /** Desktop: which section's dropdown is open, by path. Null means none. */
+  protected readonly openSub = signal<string | null>(null);
 
   private readonly sections: Section[] = [
     { path: '/', label: 'Today', children: [] },
@@ -117,9 +123,38 @@ export class App implements OnInit {
 
   protected toggleMenu(): void {
     this.menuOpen.update((open) => !open);
+    this.openSub.set(null);
   }
 
   protected closeMenu(): void {
+    this.menuOpen.set(false);
+    this.openSub.set(null);
+  }
+
+  protected toggleSub(path: string): void {
+    this.openSub.update((open) => (open === path ? null : path));
+  }
+
+  protected isSubOpen(path: string): boolean {
+    return this.openSub() === path;
+  }
+
+  /**
+   * Clicks anywhere outside the nav close the dropdown. Registered on the
+   * document rather than with a backdrop element so the rest of the page stays
+   * clickable — a click that both closes the menu and hits its target.
+   */
+  @HostListener('document:click', ['$event'])
+  protected onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (this.openSub() && !target?.closest('.sections')) {
+      this.openSub.set(null);
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  protected onEscape(): void {
+    this.openSub.set(null);
     this.menuOpen.set(false);
   }
 

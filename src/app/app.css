@@ -3,7 +3,7 @@
   left: -9999px;
   top: 0;
   z-index: 100;
-  background: var(--ink);
+  background: var(--signal);
   color: #fff;
   padding: 0.6rem 1rem;
 }
@@ -19,77 +19,179 @@
   align-items: center;
   gap: 2.5rem;
   padding: 0 2rem;
-  height: 56px;
+  height: 80px;
   background: var(--ink);
   color: var(--ink-fg);
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 30;
+  border-bottom: 1px solid var(--ink-line);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   flex: none;
 }
 
 .logo {
-  width: 14px;
-  height: 14px;
-  background: var(--signal);
+  width: 18px;
+  height: 18px;
+  background: var(--signal-bright);
   /* Off-square so it reads as a mark rather than a loading box. */
   clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }
 
 .org {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.org-name {
   font-weight: 600;
+  font-size: 1rem;
   color: #fff;
 }
+
+.org-sub {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-fg-dim);
+}
+
+/* ---- sections with dropdowns ---- */
 
 .sections {
   display: flex;
-  gap: 1.75rem;
+  gap: 0.25rem;
   margin-right: auto;
-  height: 100%;
+  align-self: stretch;
+  align-items: stretch;
 }
 
-.sections a {
+.section {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.section-btn {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.85rem;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  font: inherit;
+  font-size: 1.2rem;
   color: var(--ink-fg-dim);
   text-decoration: none;
-  font-size: 0.9375rem;
-  border-bottom: 2px solid transparent;
+  cursor: pointer;
   white-space: nowrap;
 }
 
-.sections a:hover {
+.section-btn:hover {
   color: #fff;
+  background: var(--ink-hover);
 }
 
-.sections a.current {
+.section.active > .section-btn,
+.section-btn.current {
   color: #fff;
-  border-bottom-color: var(--signal);
+  border-bottom-color: var(--signal-bright);
+}
+
+.caret {
+  width: 9px;
+  height: 6px;
+  opacity: 0.7;
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 12rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0 0 6px 6px;
+  border-top: 0;
+  box-shadow: 0 8px 24px var(--shadow);
+  padding: 0.35rem 0;
+  z-index: 40;
+}
+
+.submenu a {
+  display: block;
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  color: var(--body);
+  text-decoration: none;
+}
+
+.submenu a:hover {
+  background: var(--surface-sunk);
+  color: var(--ink-text);
+}
+
+.submenu a.current {
+  color: var(--signal);
+  font-weight: 500;
+  box-shadow: inset 2px 0 0 var(--signal);
+}
+
+/* ---- right-hand tools ---- */
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: none;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  border: 2px solid var(--ink-line);
+  border-radius: 6px;
+  color: var(--ink-fg-dim);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  color: #fff;
+  background: var(--ink-hover);
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
 }
 
 .account {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  flex: none;
 }
 
 .avatar {
   flex: none;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: var(--signal);
   color: #fff;
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -101,7 +203,8 @@
 }
 
 .whoami-name {
-  font-size: 0.8125rem;
+  font-size: 1rem;
+  color: var(--ink-fg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -145,12 +248,14 @@
   padding: 2.5rem 1.5rem 2rem 2rem;
   border-right: 1px solid var(--line);
   position: sticky;
-  top: 56px;
+  top: var(--bar-h);
 }
 
 .rail-title {
   font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 0.75rem;
 }
@@ -164,18 +269,17 @@
   color: var(--body);
   text-decoration: none;
   font-size: 0.9375rem;
-  padding: 0.3rem 0;
-  border-left: 2px solid transparent;
-  padding-left: 0.7rem;
+  padding: 0.3rem 0 0.3rem 0.7rem;
   margin-left: -0.7rem;
+  border-left: 2px solid transparent;
 }
 
 .rail-nav a:hover {
-  color: var(--ink);
+  color: var(--ink-text);
 }
 
 .rail-nav a.current {
-  color: var(--signal-dark);
+  color: var(--signal);
   font-weight: 500;
   border-left-color: var(--signal);
 }
@@ -188,7 +292,7 @@
 
 /* ---- narrow screens ---- */
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .topbar {
     gap: 1rem;
     padding: 0 1.25rem;
@@ -205,8 +309,8 @@
     height: 36px;
     padding: 0 8px;
     background: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border: 1px solid var(--ink-line);
+    border-radius: 6px;
     cursor: pointer;
   }
 
@@ -217,42 +321,78 @@
   }
 
   /* Sections drop into a panel below the bar rather than scrolling sideways,
-     which is easy to miss on a phone. */
+     which is easy to miss on a phone. Dropdowns become inline lists — nested
+     popovers on touch are a usability trap. */
   .sections {
     display: none;
     position: absolute;
-    top: 56px;
+    top: var(--bar-h);
     left: 0;
     right: 0;
     flex-direction: column;
     gap: 0;
-    height: auto;
     background: var(--ink);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--ink-line);
     padding: 0.5rem 0;
+    max-height: calc(100vh - var(--bar-h));
+    overflow-y: auto;
   }
 
   .sections.open {
     display: flex;
   }
 
-  .sections a {
+  .section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section-btn {
     padding: 0.6rem 1.25rem;
     border-bottom: 0;
     border-left: 2px solid transparent;
+    justify-content: space-between;
   }
 
-  .sections a.current {
-    border-left-color: var(--signal);
-    background: rgba(255, 255, 255, 0.06);
+  .section.active > .section-btn,
+  .section-btn.current {
+    border-bottom: 0;
+    border-left-color: var(--signal-bright);
+    background: var(--ink-hover);
   }
 
-  .account {
+  .submenu {
+    position: static;
+    min-width: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    padding: 0 0 0.35rem;
+  }
+
+  .submenu a {
+    padding: 0.4rem 1.25rem 0.4rem 2.25rem;
+    color: var(--ink-fg-dim);
+  }
+
+  .submenu a:hover {
+    background: var(--ink-hover);
+    color: #fff;
+  }
+
+  .submenu a.current {
+    color: #fff;
+    box-shadow: none;
+  }
+
+  .tools {
     order: 2;
+    margin-left: auto;
+    gap: 0.6rem;
   }
 
   .whoami-name {
-    max-width: 8rem;
+    max-width: 7rem;
   }
 
   /* The rail becomes a horizontal strip above the content. */

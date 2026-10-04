@@ -3,7 +3,10 @@
 <header class="topbar">
   <div class="brand">
     <span class="logo" aria-hidden="true"></span>
-    <span class="org">Acme</span>
+    <span class="org">
+      <span class="org-name">Acme</span>
+      <span class="org-sub">Intranet</span>
+    </span>
   </div>
 
   <button
@@ -18,26 +21,93 @@
 
   <nav class="sections" [class.open]="menuOpen()" aria-label="Sections">
     @for (section of visibleSections(); track section.path) {
-      <a
-        [routerLink]="section.path"
-        routerLinkActive="current"
-        [routerLinkActiveOptions]="{ exact: section.path === '/' }"
-        (click)="closeMenu()"
-      >
-        {{ section.label }}
-      </a>
+      @if (section.children.length) {
+        <!-- Sections with sub-pages open a dropdown instead of navigating, so
+             the landing page appears as the first item rather than being
+             reachable only by clicking the label. -->
+        <div class="section" [class.active]="activeSection()?.path === section.path">
+          <button
+            type="button"
+            class="section-btn"
+            (click)="toggleSub(section.path)"
+            [attr.aria-expanded]="isSubOpen(section.path)"
+            aria-haspopup="true"
+          >
+            {{ section.label }}
+            <svg class="caret" viewBox="0 0 10 6" aria-hidden="true">
+              <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          </button>
+
+          @if (isSubOpen(section.path)) {
+            <div class="submenu">
+              @for (page of section.children; track page.path) {
+                <a
+                  [routerLink]="page.path"
+                  routerLinkActive="current"
+                  [routerLinkActiveOptions]="{ exact: !!page.exact }"
+                  (click)="closeMenu()"
+                >
+                  {{ page.label }}
+                </a>
+              }
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="section" [class.active]="activeSection()?.path === section.path">
+          <a
+            class="section-btn"
+            [routerLink]="section.path"
+            routerLinkActive="current"
+            [routerLinkActiveOptions]="{ exact: section.path === '/' }"
+            (click)="closeMenu()"
+          >
+            {{ section.label }}
+          </a>
+        </div>
+      }
     }
   </nav>
 
-  @if (auth.isAuthenticated()) {
-    <div class="account">
-      <span class="avatar" aria-hidden="true">{{ auth.initials() }}</span>
-      <span class="whoami">
-        <span class="whoami-name">{{ auth.displayName() }}</span>
-        <button type="button" class="linkish" (click)="signOut()">Sign out</button>
-      </span>
-    </div>
-  }
+  <div class="tools">
+    <button
+      type="button"
+      class="icon-btn"
+      (click)="theme.toggle()"
+      [attr.aria-label]="
+        theme.mode() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+      "
+      [title]="theme.mode() === 'dark' ? 'Light theme' : 'Dark theme'"
+    >
+      @if (theme.mode() === 'dark') {
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" fill="currentColor" />
+          <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22" />
+            <path d="M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" />
+          </g>
+        </svg>
+      } @else {
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"
+            fill="currentColor"
+          />
+        </svg>
+      }
+    </button>
+
+    @if (auth.isAuthenticated()) {
+      <div class="account">
+        <span class="avatar" aria-hidden="true">{{ auth.initials() }}</span>
+        <span class="whoami">
+          <span class="whoami-name">{{ auth.displayName() }}</span>
+          <button type="button" class="linkish" (click)="signOut()">Sign out</button>
+        </span>
+      </div>
+    }
+  </div>
 </header>
 
 <!-- The rail only exists while a section with sub-pages is active, so Today

@@ -2,74 +2,76 @@ import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 
 /**
- * Overrides Aura's palette rather than replacing the preset wholesale, so every
- * PrimeNG component inherits the project's colors without per-component CSS.
+ * Overrides Aura's palette rather than replacing the preset, so every PrimeNG
+ * component inherits the project's colors with no per-component CSS.
  *
- * Two deliberate choices:
- *  - Primary is a deep wayfinding green, not the default blue. It reads as
- *    signage rather than SaaS, and holds up on the washed-out monitors that
- *    intranets actually get viewed on.
- *  - Surfaces are blue-grey, not neutral. Against a green accent that keeps the
- *    whole thing from going monotone.
+ * Deep navy with a mid-blue accent. The surface ramp is navy-tinted rather than
+ * neutral grey so light and dark modes read as the same product — a neutral grey
+ * ramp next to blue chrome looks like two themes bolted together.
+ *
+ * Both colorSchemes get the same ramp direction (0 lightest, 950 darkest).
+ * PrimeNG's dark tokens reference the high indices for backgrounds, which is why
+ * the ramp isn't reversed for dark.
  */
 export const AcmePreset = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '#ecf8f2',
-      100: '#d1efe1',
-      200: '#a5dfc6',
-      300: '#70c9a5',
-      400: '#3fad84',
-      500: '#1a8c66',
-      600: '#0b6e4f',
-      700: '#0a5840',
-      800: '#0b4634',
-      900: '#0a3a2c',
-      950: '#04211a',
+      50: '#eef4fb',
+      100: '#d6e5f6',
+      200: '#aecaec',
+      300: '#7fabdf',
+      400: '#528dd0',
+      500: '#2f6fbb',
+      600: '#1f5698',
+      700: '#1a467b',
+      800: '#163a64',
+      900: '#122e4f',
+      950: '#0c1f36',
     },
     colorScheme: {
       light: {
         surface: {
           0: '#ffffff',
-          50: '#f6f7f9',
-          100: '#eceef2',
-          200: '#d9dde4',
-          300: '#bcc3ce',
-          400: '#8d97a6',
-          500: '#697484',
-          600: '#4e5866',
-          700: '#3a4350',
-          800: '#28303a',
-          900: '#171d25',
-          950: '#0d1117',
+          50: '#f5f7fa',
+          100: '#e9eef5',
+          200: '#d5dde8',
+          300: '#b6c4d5',
+          400: '#8aa0ba',
+          500: '#63748a',
+          600: '#4a5a70',
+          700: '#37475c',
+          800: '#233447',
+          900: '#152433',
+          950: '#0c1824',
         },
         primary: {
-          color: '#0b6e4f',
+          color: '#1f5698',
           contrastColor: '#ffffff',
-          hoverColor: '#0a5840',
-          activeColor: '#0b4634',
+          hoverColor: '#1a467b',
+          activeColor: '#163a64',
         },
       },
       dark: {
         surface: {
           0: '#ffffff',
-          50: '#f6f7f9',
-          100: '#eceef2',
-          200: '#d9dde4',
-          300: '#bcc3ce',
-          400: '#8d97a6',
-          500: '#697484',
-          600: '#4e5866',
-          700: '#3a4350',
-          800: '#28303a',
-          900: '#171d25',
-          950: '#0d1117',
+          50: '#f5f7fa',
+          100: '#e9eef5',
+          200: '#d5dde8',
+          300: '#b6c4d5',
+          400: '#8aa0ba',
+          500: '#63748a',
+          600: '#4a5a70',
+          700: '#37475c',
+          800: '#233447',
+          900: '#152433',
+          950: '#0c1824',
         },
         primary: {
-          color: '#3fad84',
-          contrastColor: '#0d1117',
-          hoverColor: '#70c9a5',
-          activeColor: '#a5dfc6',
+          // Lighter on dark so the accent carries against a navy background.
+          color: '#7fabdf',
+          contrastColor: '#0c1824',
+          hoverColor: '#aecaec',
+          activeColor: '#d6e5f6',
         },
       },
     },

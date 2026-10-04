@@ -4,25 +4,63 @@
 @layer theme, base, primeng;
 
 :root {
-  --ink: #0d1117;
-  --ink-fg: #dbe1e8;
-  --ink-fg-dim: #8d97a6;
+  color-scheme: light;
 
-  --paper: #f6f7f9;
+  /* Chrome: the bar, its text, and its hover states. */
+  --bar-h: 72px;
+  --ink: #0c1f36;
+  --ink-line: #1d3550;
+  --ink-hover: rgba(255, 255, 255, 0.07);
+  --ink-fg: #c9d8ea;
+  --ink-fg-dim: #8aa0ba;
+
+  /* Page surfaces. */
+  --paper: #f5f7fa;
   --surface: #ffffff;
-  --surface-sunk: #eceef2;
+  --surface-sunk: #e9eef5;
+  --line: #d5dde8;
+  --line-strong: #b6c4d5;
+  --shadow: rgba(12, 31, 54, 0.14);
 
-  --line: #d9dde4;
-  --line-strong: #bcc3ce;
+  /* Text. */
+  --ink-text: #0c1f36;
+  --body: #37475c;
+  --muted: #63748a;
 
-  --body: #3a4350;
-  --muted: #697484;
-
-  --signal: #0b6e4f;
-  --signal-dark: #0a5840;
+  /* Accent. --signal works on page surfaces, --signal-bright on the dark bar. */
+  --signal: #1f5698;
+  --signal-dark: #163a64;
+  --signal-bright: #528dd0;
 
   --sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ThemeService toggles this class on <html>; PrimeNG's darkModeSelector keys off
+   the same one, so both systems flip together. */
+.dark {
+  color-scheme: dark;
+
+  --ink: #071424;
+  --ink-line: #152a40;
+  --ink-hover: rgba(255, 255, 255, 0.06);
+  --ink-fg: #c6d4e4;
+  --ink-fg-dim: #8599ad;
+
+  --paper: #0b1826;
+  --surface: #11243a;
+  --surface-sunk: #17304a;
+  --line: #1f3b57;
+  --line-strong: #2d5075;
+  --shadow: rgba(0, 0, 0, 0.5);
+
+  --ink-text: #e8eff7;
+  --body: #b8c7d9;
+  --muted: #8599ad;
+
+  --signal: #7fabdf;
+  --signal-dark: #aecaec;
+  --signal-bright: #7fabdf;
 }
 
 * {
@@ -34,7 +72,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--paper);
-  color: var(--ink);
+  color: var(--ink-text);
   font-family: var(--sans);
   font-size: 15px;
   line-height: 1.55;
@@ -57,7 +95,7 @@ code {
 }
 
 a {
-  color: var(--signal-dark);
+  color: var(--signal);
 }
 
 /* Shared page header, used by every route. */
@@ -78,7 +116,7 @@ a {
 
 /* Visible keyboard focus everywhere, including inside PrimeNG components. */
 :focus-visible {
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--signal-bright);
   outline-offset: 2px;
 }
 

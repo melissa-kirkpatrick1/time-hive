@@ -35,14 +35,14 @@
 .person-name {
   display: block;
   font-size: 0.9375rem;
-  color: var(--ink);
+  color: var(--ink-text);
   text-decoration: none;
   border-bottom: 1px solid transparent;
 }
 
 .person-name:hover {
   border-bottom-color: var(--signal);
-  color: var(--signal-dark);
+  color: var(--signal);
 }
 
 .person-title {
@@ -68,7 +68,7 @@
   border: 0;
   padding: 0;
   font: inherit;
-  color: var(--signal-dark);
+  color: var(--signal);
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;

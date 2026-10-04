@@ -79,14 +79,14 @@ import { Person } from '../../core/models';
     }
 
     .members a {
-      color: var(--ink);
+      color: var(--ink-text);
       text-decoration: none;
       border-bottom: 1px solid transparent;
       font-size: 0.9375rem;
     }
 
     .members a:hover {
-      color: var(--signal-dark);
+      color: var(--signal);
       border-bottom-color: var(--signal);
     }
 
