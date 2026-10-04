@@ -1,0 +1,53 @@
+<p-toast position="bottom-right" />
+
+<header class="page-head">
+  <h1>Rooms</h1>
+  <p>{{ freeCount() }} of {{ rooms().length }} free right now.</p>
+</header>
+
+<div class="filters">
+  <p-button
+    [label]="onlyFree() ? 'Showing free only' : 'Show free only'"
+    [outlined]="!onlyFree()"
+    size="small"
+    (onClick)="toggleFree()"
+  />
+</div>
+
+@for (group of byBuilding(); track group.building) {
+  <section class="group">
+    <h2>{{ group.building }}</h2>
+
+    <ul class="rooms">
+      @for (room of group.rooms; track room.id) {
+        <li class="room" [class.unavailable]="room.availability !== 'free'">
+          <div class="room-id">
+            <span class="room-name">{{ room.name }}</span>
+            <span class="room-meta">
+              Floor {{ room.floor }} &middot; seats {{ room.capacity }}
+            </span>
+          </div>
+
+          <div class="room-kit">
+            @for (feature of room.features; track feature) {
+              <span class="feature">{{ feature }}</span>
+            } @empty {
+              <span class="feature none">No equipment</span>
+            }
+          </div>
+
+          <p-tag [value]="label(room.availability)" [severity]="severity(room.availability)" />
+
+          <p-button
+            label="Hold"
+            size="small"
+            [disabled]="room.availability !== 'free'"
+            (onClick)="book(room)"
+          />
+        </li>
+      }
+    </ul>
+  </section>
+} @empty {
+  <p class="empty">Nothing free at the moment. Clear the filter to see every room.</p>
+}

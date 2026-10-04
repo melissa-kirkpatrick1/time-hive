@@ -1,0 +1,296 @@
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.6rem 1rem;
+}
+
+.skip:focus {
+  left: 0;
+}
+
+/* ---- top bar ---- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0 2rem;
+  height: 56px;
+  background: var(--ink);
+  color: var(--ink-fg);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: none;
+}
+
+.logo {
+  width: 14px;
+  height: 14px;
+  background: var(--signal);
+  /* Off-square so it reads as a mark rather than a loading box. */
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
+}
+
+.org {
+  font-weight: 600;
+  color: #fff;
+}
+
+.sections {
+  display: flex;
+  gap: 1.75rem;
+  margin-right: auto;
+  height: 100%;
+}
+
+.sections a {
+  display: flex;
+  align-items: center;
+  color: var(--ink-fg-dim);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.sections a:hover {
+  color: #fff;
+}
+
+.sections a.current {
+  color: #fff;
+  border-bottom-color: var(--signal);
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: none;
+}
+
+.avatar {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--signal);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.whoami {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.whoami-name {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 12rem;
+}
+
+.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--ink-fg-dim);
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.linkish:hover {
+  color: #fff;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* ---- body: content, plus a rail only when the section has sub-pages ---- */
+
+.body {
+  display: block;
+}
+
+.body.with-rail {
+  display: grid;
+  grid-template-columns: 184px 1fr;
+  align-items: start;
+}
+
+.rail {
+  padding: 2.5rem 1.5rem 2rem 2rem;
+  border-right: 1px solid var(--line);
+  position: sticky;
+  top: 56px;
+}
+
+.rail-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.rail-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.rail-nav a {
+  color: var(--body);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  padding: 0.3rem 0;
+  border-left: 2px solid transparent;
+  padding-left: 0.7rem;
+  margin-left: -0.7rem;
+}
+
+.rail-nav a:hover {
+  color: var(--ink);
+}
+
+.rail-nav a.current {
+  color: var(--signal-dark);
+  font-weight: 500;
+  border-left-color: var(--signal);
+}
+
+.content {
+  max-width: 68rem;
+  padding: 3rem 2.5rem 5rem;
+  min-width: 0;
+}
+
+/* ---- narrow screens ---- */
+
+@media (max-width: 860px) {
+  .topbar {
+    gap: 1rem;
+    padding: 0 1.25rem;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    order: 3;
+    margin-left: auto;
+    width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .menu-toggle span {
+    display: block;
+    height: 1.5px;
+    background: var(--ink-fg);
+  }
+
+  /* Sections drop into a panel below the bar rather than scrolling sideways,
+     which is easy to miss on a phone. */
+  .sections {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    height: auto;
+    background: var(--ink);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0;
+  }
+
+  .sections.open {
+    display: flex;
+  }
+
+  .sections a {
+    padding: 0.6rem 1.25rem;
+    border-bottom: 0;
+    border-left: 2px solid transparent;
+  }
+
+  .sections a.current {
+    border-left-color: var(--signal);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .account {
+    order: 2;
+  }
+
+  .whoami-name {
+    max-width: 8rem;
+  }
+
+  /* The rail becomes a horizontal strip above the content. */
+  .body.with-rail {
+    display: block;
+  }
+
+  .rail {
+    position: static;
+    padding: 1rem 1.25rem 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .rail-title {
+    display: none;
+  }
+
+  .rail-nav {
+    flex-direction: row;
+    gap: 1.25rem;
+    overflow-x: auto;
+  }
+
+  .rail-nav a {
+    padding: 0 0 0.5rem;
+    margin-left: 0;
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+
+  .rail-nav a.current {
+    border-left: 0;
+    border-bottom-color: var(--signal);
+  }
+
+  .content {
+    padding: 1.75rem 1.25rem 4rem;
+  }
+}

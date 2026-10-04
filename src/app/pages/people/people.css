@@ -1,0 +1,88 @@
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.grow {
+  flex: 1 1 18rem;
+}
+
+:host ::ng-deep .dept {
+  min-width: 13rem;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.chip {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-sunk);
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.person-name {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.person-name:hover {
+  border-bottom-color: var(--signal);
+  color: var(--signal-dark);
+}
+
+.person-title {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--signal-dark);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* The stacked layout drops the header row, so right-aligned numbers look
+   stranded next to their generated labels. */
+@media (max-width: 720px) {
+  .num {
+    text-align: left;
+  }
+}
+
+/* PrimeFlex isn't installed, so spacing utilities are declared here. */
+:host ::ng-deep .away {
+  margin-left: 0.5rem;
+}

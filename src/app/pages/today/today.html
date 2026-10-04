@@ -1,0 +1,84 @@
+<header class="masthead">
+  <p class="dateline">{{ today | date: 'EEEE d MMMM' }}</p>
+  <h1>Good to see you, {{ auth.displayName() }}</h1>
+</header>
+
+<section class="block" aria-labelledby="notices">
+  <h2 id="notices">Notices</h2>
+
+  @if (loading()) {
+    <div class="feed">
+      @for (row of [1, 2, 3]; track row) {
+        <article class="notice">
+          <p-skeleton width="4rem" height="0.8rem" />
+          <div class="notice-body">
+            <p-skeleton width="60%" height="1.1rem" />
+            <div class="gap"></div>
+            <p-skeleton width="90%" height="0.9rem" />
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="feed">
+      @for (item of sorted(); track item.id) {
+        <article class="notice" [class.pinned]="item.pinned">
+          <time class="stamp" [attr.datetime]="item.posted">
+            {{ item.posted | date: 'd MMM' }}
+          </time>
+
+          <div class="notice-body">
+            <h3>
+              {{ item.title }}
+              @if (item.pinned) {
+                <span class="pin" title="Pinned">Stays up</span>
+              }
+            </h3>
+            <p>{{ item.summary }}</p>
+            <p class="byline">
+              <p-tag [value]="item.category" [severity]="severityFor(item.category)" />
+              <span>{{ item.author }}</span>
+            </p>
+          </div>
+        </article>
+      } @empty {
+        <p class="empty">Nothing posted yet. Notices from your team will show up here.</p>
+      }
+    </div>
+  }
+</section>
+
+<div class="split">
+  <section class="block" aria-labelledby="away">
+    <h2 id="away">Away today</h2>
+    @if (outToday().length) {
+      <ul class="roster">
+        @for (person of outToday(); track person.id) {
+          <li>
+            <span class="chip" aria-hidden="true">{{ initials(person.name) }}</span>
+            <span>
+              <span class="roster-name">{{ person.name }}</span>
+              <span class="roster-dept">{{ person.department }}</span>
+            </span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="empty">Everyone's in today.</p>
+    }
+  </section>
+
+  <section class="block" aria-labelledby="jump">
+    <h2 id="jump">Jump to</h2>
+    <ul class="links">
+      <li>
+        <a routerLink="/people">Find a colleague</a>
+        <span>Extensions, desks, departments</span>
+      </li>
+      <li>
+        <a routerLink="/rooms">Book a room</a>
+        <span>What's free right now</span>
+      </li>
+    </ul>
+  </section>
+</div>

@@ -1,0 +1,80 @@
+<header class="page-head">
+  <h1>People</h1>
+  <p>Search by name, role, extension, or email.</p>
+</header>
+
+<div class="filters">
+  <input
+    pInputText
+    type="search"
+    class="grow"
+    placeholder="Search the directory"
+    aria-label="Search the directory"
+    [ngModel]="query()"
+    (ngModelChange)="query.set($event)"
+  />
+
+  <p-select
+    [options]="departments()"
+    [ngModel]="department()"
+    (ngModelChange)="department.set($event)"
+    optionLabel="label"
+    optionValue="value"
+    placeholder="All departments"
+    [showClear]="true"
+    styleClass="dept"
+  />
+</div>
+
+<p-table
+  [value]="filtered()"
+  [rows]="10"
+  [paginator]="filtered().length > 10"
+  [rowHover]="true"
+  styleClass="p-datatable-sm"
+  responsiveLayout="stack"
+  breakpoint="720px"
+>
+  <ng-template #header>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Where</th>
+      <th scope="col" class="num">Ext.</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-person>
+    <tr>
+      <td>
+        <span class="person">
+          <span class="chip" aria-hidden="true">
+            {{ person.name.split(' ')[0][0] }}{{ person.name.split(' ')[1][0] }}
+          </span>
+          <span>
+            <a class="person-name" [href]="'mailto:' + person.email">{{ person.name }}</a>
+            <span class="person-title">{{ person.title }}</span>
+          </span>
+        </span>
+      </td>
+      <td>{{ person.department }}</td>
+      <td>
+        {{ person.location }}
+        @if (person.outToday) {
+          <p-tag value="Away today" severity="warn" styleClass="away" />
+        }
+      </td>
+      <td class="num">{{ person.extension }}</td>
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="4" class="empty">
+        No one matches that search.
+        <button type="button" class="linkish" (click)="clear()">Clear the filters</button>
+        to see everyone.
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
